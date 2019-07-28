@@ -3,9 +3,12 @@ package facebook;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.*;
 import org.openqa.selenium.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Safari {
 
@@ -18,6 +21,9 @@ public class Safari {
 
 		driver.get("https://www.facebook.com/login/");
 		Thread.sleep(2000);
+	    Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+	    String browserName = cap.getBrowserName().toLowerCase();
+	    System.out.println("Browser: " + browserName);
 		System.out.println("Title: " + driver.getTitle());
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		String copyright = driver.findElement(By.xpath("//*[@id=\'pageFooter\']/div[3]/div/span")).getText();

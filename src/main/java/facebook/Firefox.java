@@ -2,8 +2,11 @@ package facebook;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.logging.*;
 
@@ -31,6 +34,9 @@ public class Firefox {
 
 		driver.get("https://www.facebook.com/login");
 		Thread.sleep(1000); // Pause in milliseconds (1000 – 1 sec)
+	    Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+	    String browserName = cap.getBrowserName().toLowerCase();
+	    System.out.println("Browser: " + browserName);
 		System.out.println("Title: " + driver.getTitle());
 		String copyright = driver.findElement(By.xpath("//*[@id=\'pageFooter\']/div[3]/div/span")).getText();
 		System.out.println("Copyright: " + copyright);
