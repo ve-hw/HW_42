@@ -7,13 +7,15 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Properties;
 import java.util.logging.*;
 
 public class Firefox {
 
 	static String url = "https://facebook.com/login";
-	static String email = "t4h0e@yahoo.com";
-	static String password = "***";
+	static String email = System.getenv("fb_email");
+	static String password = System.getenv("fb_pass");
+    static Properties p = new Properties();
 
 	static WebDriver driver;
 

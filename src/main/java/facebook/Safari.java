@@ -1,5 +1,6 @@
 package facebook;
 
+import java.util.Properties;
 import java.util.logging.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -10,8 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Safari {
 
 	static String url = "https://facebook.com/login";
-	static String email = "t4h0e@yahoo.com";
-	static String password = "***";
+	static String email = System.getenv("fb_email");
+	static String password = System.getenv("fb_pass");
+    static Properties p = new Properties();
 
 	public static void main(String[] args) throws InterruptedException {
 		Logger.getLogger("").setLevel(Level.OFF);

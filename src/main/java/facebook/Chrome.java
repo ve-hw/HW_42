@@ -8,18 +8,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.Capabilities;
 import java.util.logging.*;
+import java.io.FileInputStream;
+import java.util.Properties;
+
+
+
+
 
 public class Chrome {
 
 	static String url = "https://facebook.com/login";
-	static String email = "t4h0e@yahoo.com";
-	static String password = "***";
+	static String email = System.getenv("fb_email");
+	static String password = System.getenv("fb_pass");
+    static Properties p = new Properties();
 
 	static WebDriver driver;
 
-	public static void main(String[] args) throws InterruptedException {
-
+	public static void main(String[] args) throws Exception {
 		Logger.getLogger("").setLevel(Level.OFF);
+		p.load(new FileInputStream("./input.properties"));
 
 		String driverPath = "";
 
@@ -29,7 +36,7 @@ public class Chrome {
 			driverPath = "./resources/webdrivers/pc/chromedriver.exe";
 		else
 			throw new IllegalArgumentException("Unknown OS");
-
+		
 		System.setProperty("webdriver.chrome.driver", driverPath);
 		System.setProperty("webdriver.chrome.silentOutput", "true");
 		ChromeOptions option = new ChromeOptions();
@@ -57,30 +64,28 @@ public class Chrome {
 		System.out.println("Copyright: " + copyright);
 
 		// driver.findElement(By.id("email")).sendKeys("t4h0e@yahoo.com");
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email"))).sendKeys(email);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id(p.getProperty("id_email")))).sendKeys(email);
 
 		// driver.findElement(By.id("pass")).sendKeys("***");
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("pass"))).sendKeys(password);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id(p.getProperty("id_password")))).sendKeys(password);
 
 		// driver.findElement(By.id("loginbutton")).click();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginbutton"))).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id(p.getProperty("id_login")))).click();
 
 		// driver.findElement(By.xpath("//*[@id=\'u_0_a\']/div[1]/div[1]/div/a")).click();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='u_0_a']/div[1]/div[1]/div/a/span")))
-				.click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(p.getProperty("xpath_timeline")))).click();
 
 		// String friends =
 		// driver.findElement(By.xpath("//div[2]/ul/li[3]/a/span[1]")).getText();
 		String friends = wait
-				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[2]/ul/li[3]/a/span[1]"))).getText();
+				.until(ExpectedConditions.presenceOfElementLocated(By.xpath(p.getProperty("xpath_friends")))).getText();
 
 		// driver.findElement(By.id("userNavigationLabel")).click();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("userNavigationLabel"))).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id(p.getProperty("id_settings")))).click();
 
 		// WebElement logout =
 		// wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Log Out")));
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Log Out"))).click();
-		driver.quit();
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(p.getProperty("linktext_logout")))).click();
 
 		System.out.println("You have " + friends + " friends");
 		driver.quit();
